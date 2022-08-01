@@ -12,4 +12,5 @@ load_dotenv(env_path)
 URL = os.getenv('INFLUXDB_V2_URL')
 ORG = os.getenv('INFLUXDB_V2_ORG')
 TOKEN = os.getenv('INFLUXDB_V2_TOKEN')
+BUCKET_NAME = 'hq-bucket'
 

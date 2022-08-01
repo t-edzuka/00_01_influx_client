@@ -7,8 +7,9 @@ from influxdb_client.client.bucket_api import BucketsApi
 from influxdb_client.domain.bucket import Bucket
 from influxdb_client.client.write_api import SYNCHRONOUS, WriteApi
 from influxdb_client.client.write_api import PointSettings
-from config import URL, TOKEN, ORG
+from config import URL, TOKEN, ORG, BUCKET_NAME
 from pydantic import BaseModel, Field
+from dateutil import tz
 
 
 class PersonDetection(BaseModel):
@@ -28,8 +29,9 @@ def main():
     with InfluxDBClient(url=URL, org=ORG, token=TOKEN,
                         debug=True) as client:
         writer = client.write_api(SYNCHRONOUS)
-        writer.write(bucket='house4',
+        writer.write(bucket=BUCKET_NAME,
                      record=(Point(measurement_name='person_detection')
+                             .time(time=datetime.now(tz=tz.gettz('Asia/Tokyo')))
                              .field('x', data.x)
                              .field('y', data.y)
                              .field('person_count', data.person_count)
